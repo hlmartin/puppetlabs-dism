@@ -46,6 +46,9 @@ Puppet::Type.type(:dism).provide(:dism) do
     if resource[:norestart].to_s != 'false'
       cmd << '/NoRestart'
     end
+    if resource[:source]
+      cmd << "/Source:#{resource[:source]}"
+    end
     output = execute(cmd, :failonfail => false)
     raise Puppet::Error, "Unexpected exitcode: #{$?.exitstatus}\nError:#{output}" unless resource[:exitcode].include? $?.exitstatus
 
